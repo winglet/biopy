@@ -6,7 +6,6 @@ bioPattern = "TGT"
 def PatternCount(pat, txt):
     count = 0
     for i in range(0,len(txt)-len(pat)+1):
-        #print txt[i:i+len(pat)]
         if pat==txt[i:i+len(pat)] :
             count+=1
     return count
@@ -125,24 +124,21 @@ def ApproximatePatternMatching(pat, txt, distance):
             positions.append(i)
     return len(positions)
 
-print (HammingDistance("GGGCCGTTGGT", "GGACCGTTGAC"))
-print ApproximatePatternMatching("GAGG", "TTTAGAGCCTTCAGAGG", 2)
-print ReverseComplement("TTATCCACA")
-print ReverseComplement("GGATCCTGG")
-print ReverseComplement("GATCCCAGC")
 
+
+import sys
+sys.exit(0)
+
+#print (HammingDistance("GGGCCGTTGGT", "GGACCGTTGAC"))
+#print ApproximatePatternMatching("GAGG", "TTTAGAGCCTTCAGAGG", 2)
+#print ReverseComplement("TTATCCACA")
+#print ReverseComplement("GGATCCTGG")
+#print ReverseComplement("GATCCCAGC")
 #print MinimumSkew("CCATGGGCATCGGCCATACGC")
 #print SymbolArray("AAAAGGGG", "A")
 #print FrequentWords(bioText, 10)
 #print PatternCount(bioPattern, bioText)
 #print reverseComplement("GCTAGCT")
-import sys
-sys.exit(0)
-
-
-
-
-
 #import os.path
 #with open(os.path.normpath("C:\Users\IBM_ADMIN\Downloads\lol.txt")) as f:
 #    lines = f.read().splitlines() 
