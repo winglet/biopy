@@ -1,5 +1,6 @@
 
-bioText = "CGCCTAAATAGCCTCGCGGAGCCTTATGTCATACTCGTCCT"
+bioText = "ATCAATGATCAACGTAAGCTTCTAAGCATGATCAAGGTGCTCACACAGTTTATCCACAACCTGAGTGGATGACATCAAGATAGGTCGTTGTATCTCCTTCCTCTCGTACTCTCATGACCACGGAAAGATGATCAAGAGAGGATGATTTCTTGGCCATATCGCAATGAATACTTGTGACTTGTGCTTCCAATTGACATCTTCAGCGCCATATTGCGCTGGCCAAGGTGACGGAGCGGGATTACGAAAGCATGATCATGGCTGTTGTTCTGTTTATCTTGTTTTGACTGAGACTTGTTAGGATAGACGGTTTTTCATCACTGACTAGCCAAAGCCTTACTCTGCCTGACATCGACCGTAAATTGATAATGAATTTACATGCTTCCGCGACGATTTACCTCTTGATCATCGATCCGATTGAAGATCTTCAATTGTTAATTCTCTTGCCTCGACTCATAGCCATGATGAGCTCTTGATCATGTTTCCTTAACCCTCTATTTTTTACGGAAGAATGATCAAGCTGCTGCTCTTGATCATCGTTTC"
+k=10
 bioPattern = "TGT"
 
 def PatternCount(pat, txt):
@@ -10,6 +11,15 @@ def PatternCount(pat, txt):
             count+=1
     return count
 
+def PatternCount2(pat, txt):
+    count = 0
+    positions = []
+    for i in range(0,len(txt)-len(pat)+1):
+        #print txt[i:i+len(pat)]
+        if pat==txt[i:i+len(pat)] :
+            count+=1
+            positions.append(i)
+    return positions
 
 def FrequentWords(Text, k):
     FrequentPatterns = set()
@@ -28,7 +38,7 @@ def CountDict(Text, k):
     return Count
            
            
-def reverseComplement(dnatxt):
+def ReverseComplement(dnatxt):
     rev = ""
     c=''
     strand = dnatxt.upper()
@@ -47,17 +57,58 @@ def reverseComplement(dnatxt):
     return rev
 
 
-
-
-FrequentWords("GATCCAGATCCCCATAC", 2)
-print PatternCount(bioPattern, bioText)
-print reverseComplement("GCTAGCT")
-exit
-
-import os.path
-with open(os.path.normpath("C:\Users\IBM_ADMIN\Downloads\lol.txt")) as f:
-    lines = f.read().splitlines() 
+def SymbolArray(Genome, symbol):
+    n = len(Genome)
+    array = {}
+    ExtendedGenome = Genome + Genome[0:n//2]
+    print ExtendedGenome
+    array[0] = PatternCount(symbol, ExtendedGenome[0:n//2] )
+    for i in range( 1, n):
+        array[i] = array[i-1]
+        if ExtendedGenome[i-1]==symbol:
+            array[i] -= 1
+        if ExtendedGenome[i+n//2]==symbol:
+            array[i] += 1
+        
+    return array
     
-print (lines[0])
-print "===================="
-print reverseComplement(lines[0])
+
+def Skew(Genome):
+    s = {}
+    s[0]=0
+    for i in range(1,len(Genome)+1):
+        if Genome[i-1]=="G":
+            s[i] = s[i-1]+1
+        elif Genome[i-1]=="C":
+            s[i] = s[i-1]-1
+        else:
+            s[i] = s[i-1]
+    return s
+
+def MinimumSkew(Genome):
+    s = Skew(Genome)
+    m = s.get(min(s, key=s.get))
+    minarray = []
+    for k in s:
+        if s[k]==m:
+            minarray.append(k)
+    return minarray
+
+    
+
+print MinimumSkew("CCATGGGCATCGGCCATACGC")
+#print SymbolArray("AAAAGGGG", "A")
+#print FrequentWords(bioText, 10)
+#print PatternCount(bioPattern, bioText)
+#print reverseComplement("GCTAGCT")
+import sys
+sys.exit(0)
+
+
+
+
+
+#import os.path
+#with open(os.path.normpath("C:\Users\IBM_ADMIN\Downloads\lol.txt")) as f:
+#    lines = f.read().splitlines() 
+    
