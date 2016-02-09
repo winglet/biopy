@@ -95,8 +95,43 @@ def MinimumSkew(Genome):
     return minarray
 
     
+def HammingDistance(p, q):
+    if len(p)!=len(q):
+        return -1
+    dist = 0
+    for i in range(0, len(p)):
+        if p[i]!=q[i]:
+            dist += 1
+    return dist
 
-print MinimumSkew("CCATGGGCATCGGCCATACGC")
+
+def ApproximatePatternCount(pat, txt, distance):
+    count = 0
+    positions = []
+    for i in range(0,len(txt)-len(pat)+1):
+        #print txt[i:i+len(pat)]
+        if HammingDistance(pat, txt[i:i+len(pat)])<=distance :
+            count+=1
+            positions.append(i)
+    return positions
+
+def ApproximatePatternMatching(pat, txt, distance):
+    count = 0
+    positions = []
+    for i in range(0,len(txt)-len(pat)+1):
+        #print txt[i:i+len(pat)]
+        if HammingDistance(pat, txt[i:i+len(pat)])<=distance :
+            count+=1
+            positions.append(i)
+    return len(positions)
+
+print (HammingDistance("GGGCCGTTGGT", "GGACCGTTGAC"))
+print ApproximatePatternMatching("GAGG", "TTTAGAGCCTTCAGAGG", 2)
+print ReverseComplement("TTATCCACA")
+print ReverseComplement("GGATCCTGG")
+print ReverseComplement("GATCCCAGC")
+
+#print MinimumSkew("CCATGGGCATCGGCCATACGC")
 #print SymbolArray("AAAAGGGG", "A")
 #print FrequentWords(bioText, 10)
 #print PatternCount(bioPattern, bioText)
