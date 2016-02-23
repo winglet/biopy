@@ -231,14 +231,39 @@ def GreedyMotifSearch(Dna, k, t):
         if Score(Motifs) < Score(BestMotifs):
             BestMotifs = Motifs
     return BestMotifs
+#
+
+def CountWithPseudocounts(Motifs):
+    count={}
+    k = len(Motifs[0])
+    for symbol in "ACGT":
+        count[symbol] = []
+        for j in range(k):
+            count[symbol].append(1)
+    t = len(Motifs)
+    for i in range(t):
+        for j in range(k):
+            symbol = Motifs[i][j]
+            count[symbol][j] += 1
+    return count
+
+def ProfileWithPseudocounts(Motifs):
+    k = len(Motifs[0])
+    h = len(Motifs)
+    profile = CountWithPseudocounts(Motifs)
+    for symbol in "ACGT":
+        for j in range(k):
+            profile[symbol][j] = profile[symbol][j]/float(2*h)
+    return profile
+
 
 lines=[]
-lines.append("GCAGGTTAATACCGCGGATCAGCTGAGAAACCGGAATGTGCGT")
-lines.append("CCTGCATGCCCGGTTTGAGGAACATCAGCGAAGAACTGTGCGT")
-lines.append("GCGCCAGTAACCCGTGCCAGTCAGGTTAATGGCAGTAACATTT")
-lines.append("AACCCGTGCCAGTCAGGTTAATGGCAGTAACATTTATGCCTTC")
-lines.append("ATGCCTTCCGCGCCAATTGTTCGTATCGTCGCCACTTCGAGTG")
-
+lines.append("AACGTA")
+lines.append("CCCGTT")
+lines.append("CACCTT")
+lines.append("GGATTA")
+lines.append("TTCCGG")
+print (CountWithPseudocounts(lines))
 #Dna={0:lines[0], 1:lines[1], 2:lines[2], 3:lines[3], 4:lines[4]}
 
 Dna={0:"GCGCCCCGCCCGGACAGCCATGCGCTAACCCTGGCTTCGATGGCGCCGGCTCAGTTAGGGCCGGAAGTCCCCAATGTGGCAGACCTTTCGCCCCTGGCGGACGAATGACCCCAGTGGCCGGGACTTCAGGCCCTATCGGAGGGCTCCGGCGCGGTGGTCGGATTTGTCTGTGGAGGTTACACCCCAATCGCAAGGATGCATTATGACCAGCGAGCTGAGCCTGGTCGCCACTGGAAAGGGGAGCAACATC",
@@ -258,7 +283,7 @@ Dna={0:"GCGCCCCGCCCGGACAGCCATGCGCTAACCCTGGCTTCGATGGCGCCGGCTCAGTTAGGGCCGGAAGTCCCC
 #G = [float(c) for c in lines[2].split()]
 #T = [float(c) for c in lines[3].split()]
 #Prof = {'A':A, 'C':C, 'G':G, 'T':T}
-print (GreedyMotifSearch(Dna, 15, 10))
+#print (GreedyMotifSearch(Dna, 15, 10))
 #print(ProfileMostProbablePattern("ACCTGTTTATTGCCTAAGTTCCGAACAAACCCAATATAGCCCGAGGGCCT",5, Prof))
 
     
