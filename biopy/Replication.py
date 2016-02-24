@@ -204,9 +204,9 @@ def Pr(Text, Profile):
 
 
 def ProfileMostProbablePattern(Text, k, Profile):
-    p = 0
+    p = -1.0
     winner = Text[0:k]
-    for i in range(len(Text)-k):
+    for i in range(len(Text)-k+1):
         kmer = Text[i:i+k]
         pkmer = Pr(kmer, Profile)
         if pkmer > p:
@@ -240,6 +240,7 @@ def CountWithPseudocounts(Motifs):
         count[symbol] = []
         for j in range(k):
             count[symbol].append(1)
+    
     t = len(Motifs)
     for i in range(t):
         for j in range(k):
@@ -253,7 +254,7 @@ def ProfileWithPseudocounts(Motifs):
     profile = CountWithPseudocounts(Motifs)
     for symbol in "ACGT":
         for j in range(k):
-            profile[symbol][j] = profile[symbol][j]/float(2*h)
+            profile[symbol][j] = (profile[symbol][j])/float(4+h)
     return profile
 
 
@@ -263,7 +264,7 @@ lines.append("CCCGTT")
 lines.append("CACCTT")
 lines.append("GGATTA")
 lines.append("TTCCGG")
-print (CountWithPseudocounts(lines))
+print (ProfileWithPseudocounts(lines))
 #Dna={0:lines[0], 1:lines[1], 2:lines[2], 3:lines[3], 4:lines[4]}
 
 Dna={0:"GCGCCCCGCCCGGACAGCCATGCGCTAACCCTGGCTTCGATGGCGCCGGCTCAGTTAGGGCCGGAAGTCCCCAATGTGGCAGACCTTTCGCCCCTGGCGGACGAATGACCCCAGTGGCCGGGACTTCAGGCCCTATCGGAGGGCTCCGGCGCGGTGGTCGGATTTGTCTGTGGAGGTTACACCCCAATCGCAAGGATGCATTATGACCAGCGAGCTGAGCCTGGTCGCCACTGGAAAGGGGAGCAACATC",
