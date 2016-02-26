@@ -257,14 +257,31 @@ def ProfileWithPseudocounts(Motifs):
             profile[symbol][j] = (profile[symbol][j])/float(4+h)
     return profile
 
+def GreedyMotifSearchWithPseudocounts(Dna, k, t):
+    BestMotifs = []
+    for i in range(0, t):
+        BestMotifs.append(Dna[i][0:k-1])
+    n = len(Dna[0])
+    for i in range(n-k+1):
+        Motifs = []
+        Motifs.append(Dna[0][i:i+k])
+        for j in range(1, t):
+            P = ProfileWithPseudocounts(Motifs[0:j])
+            Motifs.append(ProfileMostProbablePattern(Dna[j], k, P))    
+        if Score(Motifs) < Score(BestMotifs):
+            BestMotifs = Motifs
+    return BestMotifs
 
 lines=[]
-lines.append("AACGTA")
-lines.append("CCCGTT")
-lines.append("CACCTT")
-lines.append("GGATTA")
-lines.append("TTCCGG")
+lines.append("GGCGTTCAGGCA")
+lines.append("AAGAATCAGTCA")
+lines.append("CAAGGAGTTCGC")
+lines.append("CACGTCAATCAC")
+lines.append("CAATAATATTCG")
 print (ProfileWithPseudocounts(lines))
+
+#print(GreedyMotifSearchWithPseudocounts(lines, 3, 5))
+
 #Dna={0:lines[0], 1:lines[1], 2:lines[2], 3:lines[3], 4:lines[4]}
 
 Dna={0:"GCGCCCCGCCCGGACAGCCATGCGCTAACCCTGGCTTCGATGGCGCCGGCTCAGTTAGGGCCGGAAGTCCCCAATGTGGCAGACCTTTCGCCCCTGGCGGACGAATGACCCCAGTGGCCGGGACTTCAGGCCCTATCGGAGGGCTCCGGCGCGGTGGTCGGATTTGTCTGTGGAGGTTACACCCCAATCGCAAGGATGCATTATGACCAGCGAGCTGAGCCTGGTCGCCACTGGAAAGGGGAGCAACATC",
@@ -279,6 +296,7 @@ Dna={0:"GCGCCCCGCCCGGACAGCCATGCGCTAACCCTGGCTTCGATGGCGCCGGCTCAGTTAGGGCCGGAAGTCCCC
 9:"TCAGCACCATGACCGCCTGGCCACCAATCGCCCGTAACAAGCGGGACGTCCGCGACGACGCGTGCGCTAGCGCCGTGGCGGTGACAACGACCAGATATGGTCCGAGCACGCGGGCGAACCTCGTGTTCTGGCCTCGGCCAGTTGTGTAGAGCTCATCGCTGTCATCGAGCGATATCCGACCACTGATCCAAGTCGGGGGCTCTGGGGACCGAAGTCCCCGGGCTCGGAGCTATCGGACCTCACGATCACC"
 }
 
+print(GreedyMotifSearchWithPseudocounts(Dna, 15, 10))
 #A = [float(c) for c in lines[0].split()]
 #C = [float(c) for c in lines[1].split()]
 #G = [float(c) for c in lines[2].split()]
