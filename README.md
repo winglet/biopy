@@ -1,1 +1,1 @@
-Assignment for an online bioinformatics MOOC course
+# Assignment for an online bioinformatics MOOC course
